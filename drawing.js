@@ -12,6 +12,7 @@ function equation(start, cp1, cp2, end, len) {
 	$("#dx").text("dx/dt = " + dx);
 	$('#dy').text("dy/dt = " + dy);
 	$('#len').text("len = " + len);
+	$('#export').text("// " + JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}));
 	$('#dydx').text(dydx);
 }
 
@@ -52,4 +53,35 @@ $(document).ready(function() {
 	$('#endy').change(function() {
 		end.y = parseFloat($(this).val());
 	});
+	$('#importtext').click(function() {
+		let imp = JSON.parse($("#import").val());
+		start.x = imp.start.x;
+		start.y = imp.start.y;
+
+		mid1.x = imp.mid1.x;
+		mid1.y = imp.mid1.y;
+
+		mid2.x = imp.mid2.x;
+		mid2.y = imp.mid2.y;
+
+		end.x = imp.end.x;
+		end.y = imp.end.y;
+
+		$('#startx').val(start.x);
+		$('#starty').val(start.y);
+
+		$('#endx').val(end.x);
+		$('#endy').val(end.y);
+
+		$('#mid1x').val(mid1.x);
+		$('#mid1y').val(mid1.y);
+
+		$('#mid2x').val(mid2.x);
+		$('#mid2y').val(mid2.y);
+		
+		curve =new Bezier(start , mid1 , mid2 , end);
+		draw(curve);
+		equation(start, mid1, mid2, end, curve.length());
+	});
+
 });
