@@ -12,7 +12,7 @@ function equation(start, cp1, cp2, end, len) {
 	$("#dx").text("dx/dt = " + dx);
 	$('#dy').text("dy/dt = " + dy);
 	$('#len').text("len = " + len);
-	$('#export').text("// " + JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}));
+	$('#export').text("/* " + JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}) + " */");
 	$('#dydx').text(dydx);
 }
 
