@@ -14,6 +14,11 @@ function equation(start, cp1, cp2, end, len) {
 	$('#len').text("len = " + len);
 	$('#export').text("/* " + JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}) + " */");
 	$('#dydx').text(dydx);
+
+	$('#java').html(`new PathSegment(t -> <br />
+		/* ${JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end})} */<br />
+		${dydx} <br />
+		, ${Math.ceil(len)})`);
 }
 
 $(document).ready(function() {
