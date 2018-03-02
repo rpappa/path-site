@@ -8,10 +8,12 @@ function equation(start, cp1, cp2, end, len) {
 	var dy = (3 * (cp1.y-start.y)) +" + " + (6 * (start.y+cp2.y-2*cp1.y)) + "t + " + (3 * (end.y - start.y + 3 * cp1.y - 3 * cp2.y))+ "t^2"
 	var dydx = `(${(3 * (cp1.y-start.y)) +" + " + (6 * (start.y+cp2.y-2*cp1.y)) + " * t + " + (3 * (end.y - start.y + 3 * cp1.y - 3 * cp2.y))+ " * Math.pow(t, 2)"})/
 	(${(3 * (cp1.x-start.x)) +" + " + (6 * (start.x+cp2.x-2*cp1.x)) + " * t + " + (3 * (end.x - start.x + 3 * cp1.x - 3 * cp2.x))+ " * Math.pow(t, 2)"})`
-
+	
+	var endAngle = Math.atan2(end.y - cp2.y, end.x-cp2.x) * 180 / Math.PI;
+	
 	$("#dx").text("dx/dt = " + dx);
 	$('#dy').text("dy/dt = " + dy);
-	$('#len').text("len = " + len);
+	$('#len').text("len = " + len + " end angle: " + endAngle);
 	$('#export').text("/* " + JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}) + " */");
 	$('#dydx').text(dydx);
 
