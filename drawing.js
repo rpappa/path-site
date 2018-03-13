@@ -90,5 +90,39 @@ $(document).ready(function() {
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
+	$(document).keypress((e)=>{
+		update();
+	});
 
+	setInterval(update, 100);
 });
+
+function update() {
+	start.x = parseFloat($('#startx').val());
+	start.y = parseFloat($('#starty').val());
+
+	mid1.x = parseFloat($('#mid1x').val());
+	mid1.y = parseFloat($('#mid1y').val());
+
+	mid2.x = parseFloat($('#mid2x').val());
+	mid2.y = parseFloat($('#mid2y').val());
+
+	end.x = parseFloat($('#endx').val());
+	end.y = parseFloat($('#endy').val());
+
+	// $('#startx').val(start.x);
+	// $('#starty').val(start.y);
+
+	// $('#endx').val(end.x);
+	// $('#endy').val(end.y);
+
+	// $('#mid1x').val(mid1.x);
+	// $('#mid1y').val(mid1.y);
+
+	// $('#mid2x').val(mid2.x);
+	// $('#mid2y').val(mid2.y);
+
+	curve =new Bezier(start , mid1 , mid2 , end);
+	draw(curve);
+	equation(start, mid1, mid2, end, curve.length());
+}
