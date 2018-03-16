@@ -8,14 +8,15 @@
     	<script src="draw.js"></script>
     	<script src="loader.js"></script>
 	</head>
-	<body>
-		<form>
+	<body style="font-family: 'Open Sans', sans-serif;">
+		<div id="left" style="width:45%;display: inline-block;float: left;">
+			<form>
 				Start x: <input id="startx" type="number" value="100"> Start y: <input id="starty" type="number" value="25"><br />
 				End x : <input id="endx" type="number"  value="150"> End y:<input id="endy" type="number" value="195"><br />
 				Mid1 x: <input id="mid1x" type="number" value="10"> Mid1 y: <input id="mid1y" type="number" value="90"><br />
 				Mid2 x: <input id="mid2x" type="number" value="110"> Mid2 y:<input id="mid2y" type="number" value="100">
 				<br /> <br />
-				Import: <input id="import"> <span id="importtext" style="font-color:blue;background-color:#aaaaff"> Import from JSON </span>
+				Import: <input id="import"> <span id="importtext" style="font-size:0.9em;background-color:#aaaaff; border-radius: 5px; padding: 3px;"> Import from JSON </span>
 			</form>
 			<span id = "xt">x(t) = </span><br />
 			<span id = "yt">y(t) = </span><br />
@@ -24,11 +25,16 @@
 			<span id = "dy">dy = </span><br />
 			<span id = "export">// </span><br />
 			<span id = "dydx">dy/dx = </span><br />
+			
+			<div style="background-color:#dddddd; width: fit-content;">
+				<span id = "java" style="font-family: serf; font-size:11px"></span><br />
+			</div>	
+		</div>
+
+		<div id="right" style="width:50%;display: inline-block;">
 
 			<span id="len">len = </span><br /><br />
-
-			<span id = "java"></span><br />
-		<figures>
+			<figures>
 			<figure class="quadratic"><script type="text/beziercode">
 				new Bezier(100,25 , 10,90 , 110,100 , 150,195);
 		            window.draw = function(c) {
@@ -40,6 +46,6 @@
 	              drawCurve(c);
 	            }
 			</script></figure></figures>
-			
+		</div>
 	</body>
 </html>
