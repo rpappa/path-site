@@ -156,6 +156,39 @@ $(document).ready(function() {
 		equation(start, mid1, mid2, end, curve.length());
 	});
 
+	$('#offset').click(()=>{
+		let x = parseFloat($('#offx').val());
+		let y = parseFloat($('#offy').val());
+
+		start.x = start.x + x;
+		start.y = start.y + y;
+
+		mid1.x = mid1.x + x;
+		mid1.y = mid1.y + y;
+
+		mid2.x = mid2.x + x;
+		mid2.y = mid2.y + y;
+
+		end.x = end.x + x;
+		end.y = end.y + y;
+
+		$('#startx').val(start.x);
+		$('#starty').val(start.y);
+
+		$('#endx').val(end.x);
+		$('#endy').val(end.y);
+
+		$('#mid1x').val(mid1.x);
+		$('#mid1y').val(mid1.y);
+
+		$('#mid2x').val(mid2.x);
+		$('#mid2y').val(mid2.y);
+		
+		curve =new Bezier(start , mid1 , mid2 , end);
+		draw(curve);
+		equation(start, mid1, mid2, end, curve.length());
+	});
+
 	$(document).keypress((e)=>{
 		update();
 	});

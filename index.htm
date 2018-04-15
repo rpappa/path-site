@@ -7,6 +7,8 @@
 
     	<script src="draw.js"></script>
     	<script src="loader.js"></script>
+
+    	<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
 	<body style="font-family: 'Open Sans', sans-serif;">
 		<div id="left" style="width:45%;display: inline-block;float: left;">
@@ -16,10 +18,11 @@
 				Mid1 x: <input id="mid1x" type="number" value="10"> Mid1 y: <input id="mid1y" type="number" value="90"><br />
 				Mid2 x: <input id="mid2x" type="number" value="110"> Mid2 y:<input id="mid2y" type="number" value="100">
 				<br /><br />
-				<span id="reverse" style="font-size:0.9em;background-color:#aaaaff; border-radius: 5px; padding: 3px;">Reverse</span>
-				<span id="mirror" style="font-size:0.9em;background-color:#aaaaff; border-radius: 5px; padding: 3px;">Mirror (about x-axis)</span>
+				<span id="reverse" class="button">Reverse</span>
+				<span id="mirror" class="button">Mirror (about x-axis)</span> <br /><br />
+				Offset x: <input id="offx" type="number" value="0"> Offset y: <input id="offy" type="number" value="0"><br /><span id="offset" class="button">Offset</span>
 				<br /><br /><br />
-				Import: <input id="import"> <span id="importtext" style="font-size:0.9em;background-color:#aaaaff; border-radius: 5px; padding: 3px;"> Import from JSON </span>
+				Import: <input id="import"> <span id="importtext" class="button"> Import from JSON </span>
 			</form>
 			<span id = "xt">x(t) = </span><br />
 			<span id = "yt">y(t) = </span><br />
