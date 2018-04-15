@@ -16,6 +16,9 @@ function bindDrawFunctions(idx) {
   }
   var randomIndex = 0;
 
+  var fieldImage = new Image();
+  fieldImage.src = "field.png"
+
 
   return {
     getCanvas: function() { return cvs; },
@@ -220,6 +223,13 @@ function bindDrawFunctions(idx) {
     drawText: function(text, offset) {
       offset = offset || { x:0, y:0 };
       ctx.fillText(text, offset.x, offset.y);
+    }, 
+
+    drawFieldImage: function(alpha) {
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.drawImage(fieldImage, 5, 50);
+      ctx.restore();
     }
   };
 }

@@ -24,6 +24,7 @@ function equation(start, cp1, cp2, end, len) {
 }
 
 $(document).ready(function() {
+	// drawFieldImage(0.5);
 	start = {x: 100, y: 25};
 	mid1 = {x: 10, y: 90};
 	mid2 = {x: 110, y: 100};
