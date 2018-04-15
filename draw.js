@@ -116,8 +116,12 @@ function bindDrawFunctions(idx) {
 
     drawPoints: function(points, offset) {
       offset = offset || { x:0, y:0 };
+      ctx.strokeStyle = 'green'
+      var tempWidth = 4;
       points.forEach(function(p) {
-        this.drawCircle(p, 3, offset);
+        this.drawCircle(p, tempWidth, offset);
+        ctx.strokeStyle = 'black'
+        tempWidth = 3;
       }.bind(this));
     },
 

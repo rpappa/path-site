@@ -90,6 +90,71 @@ $(document).ready(function() {
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
+
+	$('#mirror').click(()=>{
+		let old = JSON.parse(JSON.stringify({start: start, mid1: mid1, mid2:mid2, end: end})); // sketchy hack to copy not reference
+
+		start.x = old.start.x;
+		start.y = old.start.y;
+
+		mid1.x = old.mid1.x;
+		mid1.y = start.y + (old.start.y - old.mid1.y);
+
+		mid2.x = old.mid2.x;
+		mid2.y = start.y + (old.start.y - old.mid2.y);
+
+		end.x = old.end.x;
+		end.y = start.y + (old.start.y - old.end.y);
+
+		$('#startx').val(start.x);
+		$('#starty').val(start.y);
+
+		$('#endx').val(end.x);
+		$('#endy').val(end.y);
+
+		$('#mid1x').val(mid1.x);
+		$('#mid1y').val(mid1.y);
+
+		$('#mid2x').val(mid2.x);
+		$('#mid2y').val(mid2.y);
+		
+		curve =new Bezier(start , mid1 , mid2 , end);
+		draw(curve);
+		equation(start, mid1, mid2, end, curve.length());
+	});
+
+	$('#reverse').click(()=>{
+		let old = JSON.parse(JSON.stringify({start: start, mid1: mid1, mid2:mid2, end: end})); // sketchy hack to copy not reference
+
+		start.x = old.end.x;
+		start.y = old.end.y;
+
+		mid1.x = old.mid2.x;
+		mid1.y = old.mid2.y;
+
+		mid2.x = old.mid1.x;
+		mid2.y = old.mid1.y;
+
+		end.x = old.start.x;
+		end.y = old.start.y;
+
+		$('#startx').val(start.x);
+		$('#starty').val(start.y);
+
+		$('#endx').val(end.x);
+		$('#endy').val(end.y);
+
+		$('#mid1x').val(mid1.x);
+		$('#mid1y').val(mid1.y);
+
+		$('#mid2x').val(mid2.x);
+		$('#mid2y').val(mid2.y);
+		
+		curve =new Bezier(start , mid1 , mid2 , end);
+		draw(curve);
+		equation(start, mid1, mid2, end, curve.length());
+	});
+
 	$(document).keypress((e)=>{
 		update();
 	});
