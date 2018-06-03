@@ -30,7 +30,7 @@ $(document).ready(function() {
 	var mid2 = {x: 110, y: 100};
 	var end = {x: 150, y: 195};
 	$('input').change(function() {
-		let curve =new Bezier(start , mid1 , mid2 , end);
+		window.curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -87,7 +87,7 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		let curve =new Bezier(start , mid1 , mid2 , end);
+		window.curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -119,7 +119,7 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		let curve =new Bezier(start , mid1 , mid2 , end);
+		window.curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -151,7 +151,7 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		let curve =new Bezier(start , mid1 , mid2 , end);
+		window.curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -184,7 +184,7 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		let curve =new Bezier(start , mid1 , mid2 , end);
+		window.curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -216,7 +216,7 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		// console.log(start, mid1, mid2, end);
-		let curve =new Bezier(start, mid1, mid2, end);
+		window.curve =new Bezier(start, mid1, mid2, end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	}
@@ -257,7 +257,7 @@ function update() {
 	// $('#mid2x').val(mid2.x);
 	// $('#mid2y').val(mid2.y);
 
-	curve = new Bezier(start , mid1 , mid2 , end);
+	window.curve = new Bezier(start , mid1 , mid2 , end);
 	draw(curve);
 	equation(start, mid1, mid2, end, curve.length());
 }
