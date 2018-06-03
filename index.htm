@@ -1,12 +1,13 @@
 <html>
 	<head>
-		<script src="jquery.min.js"></script>
+		<script src="js/jquery.min.js"></script>
 
-		<script src="drawing.js"></script>
-		<script src="bezier.js"></script>
+		<script src="js/bezier.js"></script>
 
-    	<script src="draw.js"></script>
-    	<script src="loader.js"></script>
+		<script src="js/drawing.js"></script>
+
+    	<script src="js/draw.js"></script>
+    	<script src="js/loader.js"></script>
 
     	<link rel="stylesheet" type="text/css" href="style.css">
 	</head>
@@ -42,20 +43,22 @@
 			<span id="len">len = </span><br /><br />
 			<figures>
 			<figure class="quadratic"><script type="text/beziercode">
-				new Bezier(100,25 , 10,90 , 110,100 , 150,195);
-		            window.draw = function(c) {
-		            	if(!c) {
-		            	c = curve;
-		            }
-		            reset();
-		            drawFieldImage(0.5);
-	              drawSkeleton(c, {x: 5, y: 50});
-	              drawCurve(c, {x: 5, y : 50});
+				
+		            window.draw = function() {
+		            	//if(!c) {
+							c = window.curve;
+						//}
+						reset();
+						drawFieldImage(0.5);
+						drawSkeleton(c, {x: 5, y: 50});
+						drawCurve(c, {x: 5, y : 50});
 	            }
 			</script></figure></figures>
 		</div>
 		<div id="340" style="float:right;position:absolute;opacity:0.2;right:30px;bottom:30px">
 			<span style="font-family:Impact; font-size:80px; font-style:italic;">340</span>
 		</div>
+
+		<script src="js/interaction.js"></script>
 	</body>
 </html>

@@ -20,7 +20,7 @@ function loadAll() {
     code = "var curve = " + code.map(function(l) { return l.replace(indent,''); }).join("\n");
 
     var content = code + "\n      draw();";
-    content = content + "\n      handleInteraction(getCanvas(), curve).onupdate = function(evt) { reset(); draw(evt); }";
+    content = content + "\n      handleInteraction(getCanvas(), window.curve).onupdate = function(evt) { reset(); draw(window.curve); window.updateFromCurve(window.curve) }";
     content = "\n    with(Math) { " + content + "\n    }";
     content = "\n  with(drawfunctions) { " + content + "\n  }";
     content = "(function(drawfunctions) { " + content + "\n} (bindDrawFunctions( " + idx + " )) );\n";

@@ -25,12 +25,12 @@ function equation(start, cp1, cp2, end, len) {
 
 $(document).ready(function() {
 	// drawFieldImage(0.5);
-	start = {x: 100, y: 25};
-	mid1 = {x: 10, y: 90};
-	mid2 = {x: 110, y: 100};
-	end = {x: 150, y: 195};
+	var start = {x: 100, y: 25};
+	var mid1 = {x: 10, y: 90};
+	var mid2 = {x: 110, y: 100};
+	var end = {x: 150, y: 195};
 	$('input').change(function() {
-		curve =new Bezier(start , mid1 , mid2 , end);
+		let curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -87,7 +87,7 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		curve =new Bezier(start , mid1 , mid2 , end);
+		let curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -119,7 +119,7 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		curve =new Bezier(start , mid1 , mid2 , end);
+		let curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -151,7 +151,7 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		curve =new Bezier(start , mid1 , mid2 , end);
+		let curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
@@ -184,10 +184,38 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		curve =new Bezier(start , mid1 , mid2 , end);
+		let curve =new Bezier(start , mid1 , mid2 , end);
 		draw(curve);
 		equation(start, mid1, mid2, end, curve.length());
 	});
+
+	function updateFromCurve(otherCurve) {
+		if(otherCurve.points.length < 4) {
+			return;
+		}
+		// console.log(otherCurve);
+		start = otherCurve.points[0];
+		mid1 = otherCurve.points[1];
+		mid2 = otherCurve.points[2];
+		end = otherCurve.points[3];
+		$('#startx').val(start.x);
+		$('#starty').val(start.y);
+	
+		$('#endx').val(end.x);
+		$('#endy').val(end.y);
+	
+		$('#mid1x').val(mid1.x);
+		$('#mid1y').val(mid1.y);
+	
+		$('#mid2x').val(mid2.x);
+		$('#mid2y').val(mid2.y);
+		// console.log(start, mid1, mid2, end);
+		let curve =new Bezier(start, mid1, mid2, end);
+		draw(curve);
+		equation(start, mid1, mid2, end, curve.length());
+	}
+
+	window.updateFromCurve = updateFromCurve;
 
 	$(document).keypress((e)=>{
 		update();
@@ -195,6 +223,8 @@ $(document).ready(function() {
 
 	//setInterval(update, 100);
 });
+
+window.updateFromCurve = function(){};
 
 function update() {
 	start.x = parseFloat($('#startx').val());
@@ -221,7 +251,9 @@ function update() {
 	// $('#mid2x').val(mid2.x);
 	// $('#mid2y').val(mid2.y);
 
-	curve =new Bezier(start , mid1 , mid2 , end);
+	curve = new Bezier(start , mid1 , mid2 , end);
 	draw(curve);
 	equation(start, mid1, mid2, end, curve.length());
 }
+
+window.curve = new Bezier(100,25 , 10,90 , 110,100 , 150,195);
