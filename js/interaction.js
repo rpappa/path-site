@@ -1,5 +1,4 @@
 function handleInteraction(cvs, curve) {
-  curve = window.curve;
   curve.mouse = false;
 
   var fix = function(e) {
@@ -13,13 +12,9 @@ function handleInteraction(cvs, curve) {
   var lpts = curve.points;
   var moving = false, mx = my = ox = oy = 0, cx, cy, mp = false;
 
-  var mouseDown = false;
-
   var handler = { onupdate: function() {} };
 
   cvs.addEventListener("mousedown", function(evt) {
-    mouseDown = true;
-    // curve = window.curve;
     fix(evt);
     mx = evt.offsetX-5;
     my = evt.offsetY-50;
@@ -32,16 +27,10 @@ function handleInteraction(cvs, curve) {
         cx = p.x;
         cy = p.y;
       }
-      // window.curve = curve;
     });
   });
 
   cvs.addEventListener("mousemove", function(evt) {
-    console.log(mouseDown);
-    if(!mouseDown) {
-      curve = window.curve;
-      lpts = curve.points;
-    }
     fix(evt);
 
     var found = false;
@@ -65,7 +54,6 @@ function handleInteraction(cvs, curve) {
     mp.x = cx + ox;
     mp.y = cy + oy;
     curve.update();
-    window.curve = curve;
     handler.onupdate();
   });
 
@@ -74,8 +62,6 @@ function handleInteraction(cvs, curve) {
     // console.log(curve.points.map(function(p) { return p.x+", "+p.y; }).join(", "));
     moving = false;
     mp = false;
-    window.curve = curve;
-    mouseDown = false;
   });
 
   cvs.addEventListener("click", function(evt) {

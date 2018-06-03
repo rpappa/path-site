@@ -44,10 +44,10 @@
 			<figures>
 			<figure class="quadratic"><script type="text/beziercode">
 				
-		            window.draw = function(c) {
-		            	if(!c) {
+		            window.draw = function() {
+		            	//if(!c) {
 							c = window.curve;
-						}
+						//}
 						reset();
 						drawFieldImage(0.5);
 						drawSkeleton(c, {x: 5, y: 50});
