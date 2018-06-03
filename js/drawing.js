@@ -194,16 +194,10 @@ $(document).ready(function() {
 			return;
 		}
 		// console.log(otherCurve);
-
-		// clear out polluted non-point data
-		start.x = otherCurve.points[0].x;
-		start.y = otherCurve.points[0].y;
-		mid1.x = otherCurve.points[1].x;
-		mid1.y = otherCurve.points[1].y;
-		mid2.x = otherCurve.points[2].x;
-		mid2.y = otherCurve.points[2].y;
-		end.x = otherCurve.points[3].x;
-		end.y = otherCurve.points[3].y;
+		start = otherCurve.points[0];
+		mid1 = otherCurve.points[1];
+		mid2 = otherCurve.points[2];
+		end = otherCurve.points[3];
 		$('#startx').val(start.x);
 		$('#starty').val(start.y);
 	
