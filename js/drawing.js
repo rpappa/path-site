@@ -193,11 +193,20 @@ $(document).ready(function() {
 		if(otherCurve.points.length < 4) {
 			return;
 		}
-		// console.log(otherCurve);
+		// console.log(otherCurve.points[0]);
+
 		start = otherCurve.points[0];
 		mid1 = otherCurve.points[1];
 		mid2 = otherCurve.points[2];
 		end = otherCurve.points[3];
+
+		// console.log(start)
+
+		delete start.t;
+		delete start.d;
+		delete end.t;
+		delete end.d;
+
 		$('#startx').val(start.x);
 		$('#starty').val(start.y);
 	

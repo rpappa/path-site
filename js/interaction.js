@@ -39,6 +39,13 @@ function handleInteraction(cvs, curve) {
     lpts.forEach(function(p) {
       var mx = evt.offsetX-5;
       var my = evt.offsetY-50;
+      let closePoint = curve.project({x: mx, y: my});
+      if(!moving && Math.sqrt(Math.pow(mx - closePoint.x, 2) + Math.pow(my - closePoint.y, 2) ) < 9) {
+        // console.log(closePoint)
+        window.closePoint = closePoint;
+      } else {
+        window.closePoint = false;
+      }
       if(Math.abs(mx-p.x)<10 && Math.abs(my-p.y)<10) {
         found = found || true;
       }
