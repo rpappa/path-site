@@ -1,29 +1,153 @@
+var dx, dy, d2y, dx2, curvature, radius;
+
 function equation(start, cp1, cp2, end, len) {
 	var xt = start.x + " + " + (3 * (cp1.x-start.x)) +"t + " + (3 * (start.x+cp2.x-2*cp1.x)) + "t^2 + " + ((end.x - start.x + 3 * cp1.x - 3 * cp2.x))+ "t^3"
 	$('#xt').text("x(t) = " + xt);
 	var yt = start.y + " + " + (3 * (cp1.y-start.y)) +"t + " + (3 * (start.y+cp2.y-2*cp1.y)) + "t^2 + " + ((end.y - start.y + 3 * cp1.y - 3 * cp2.y))+ "t^3"
 	$('#yt').text("y(t) = " + yt);
 
-	var dx = (3 * (cp1.x-start.x)) +" + " + (6 * (start.x+cp2.x-2*cp1.x)) + "t + " + (3 * (end.x - start.x + 3 * cp1.x - 3 * cp2.x))+ "t^2"
-	var dy = (3 * (cp1.y-start.y)) +" + " + (6 * (start.y+cp2.y-2*cp1.y)) + "t + " + (3 * (end.y - start.y + 3 * cp1.y - 3 * cp2.y))+ "t^2"
-	var dydx = `(${(3 * (cp1.y-start.y)) +" + " + (6 * (start.y+cp2.y-2*cp1.y)) + " * t + " + (3 * (end.y - start.y + 3 * cp1.y - 3 * cp2.y))+ " * Math.pow(t, 2)"})/
+	var dxString = (3 * (cp1.x-start.x)) +" + " + (6 * (start.x+cp2.x-2*cp1.x)) + "t + " + (3 * (end.x - start.x + 3 * cp1.x - 3 * cp2.x))+ "t^2"
+	var dyString = (3 * (cp1.y-start.y)) +" + " + (6 * (start.y+cp2.y-2*cp1.y)) + "t + " + (3 * (end.y - start.y + 3 * cp1.y - 3 * cp2.y))+ "t^2"
+	var dydxString = `(${(3 * (cp1.y-start.y)) +" + " + (6 * (start.y+cp2.y-2*cp1.y)) + " * t + " + (3 * (end.y - start.y + 3 * cp1.y - 3 * cp2.y))+ " * Math.pow(t, 2)"})/
 	(${(3 * (cp1.x-start.x)) +" + " + (6 * (start.x+cp2.x-2*cp1.x)) + " * t + " + (3 * (end.x - start.x + 3 * cp1.x - 3 * cp2.x))+ " * Math.pow(t, 2)"})`
 	
 	var endAngle = Math.atan2(end.y - cp2.y, end.x-cp2.x) * 180 / Math.PI;
 	
-	$("#dx").text("dx/dt = " + dx);
-	$('#dy').text("dy/dt = " + dy);
+	$("#dx").text("dx/dt = " + dxString);
+	$('#dy').text("dy/dt = " + dyString);
 	$('#len').text("len = " + Math.round(len*1000)/1000 + " end angle: " + Math.round(endAngle*1000)/1000) + "&#176;";
 	$('#export').text("/* " + JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}) + " */");
-	$('#dydx').text(dydx);
+	$('#dydx').text(dydxString);
 
 	$('#java').html(`new PathSegment(t -> <br />
 		/* ${JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end})} */<br />
-		${dydx} <br />
+		${dydxString} <br />
 		, ${Math.ceil(len)})`);
+
+	dx = function(t) {
+		return (
+			3 * (end.x + 3 * cp1.x - 3 * cp2.x - start.x) * Math.pow(t, 2) -
+			6 * (2 * cp1.x - cp2.x - start.x) * t +
+			3 * cp1.x - 3 * start.x
+		);
+	}
+
+	dy = function(t) {
+		return (
+			3 * (end.y + 3 * cp1.y - 3 * cp2.y - start.y) * Math.pow(t, 2) -
+			6 * (2 * cp1.y - cp2.y - start.y) * t +
+			3 * cp1.y - 3 * start.y
+		);
+	}
+
+	dx2 = function(t) {
+		return (6 * (end.x + 3 * cp1.x - 3 * cp2.x - start.x) * t - 6 * (2 * cp1.x - cp2.x - start.x));
+	}
+
+	d2y = function(t) { 
+		return (6 * (end.y + 3 * cp1.y - 3 * cp2.y - start.y) * t - 6 * (2 * cp1.y - cp2.y - start.y));
+	}
+
+	curvature = function(t) {
+		return Math.abs(dx(t) * d2y(t) - dy(t) * dx2(t)) 
+    				/ Math.pow(Math.pow(dx(t), 2) + Math.pow(dy(t), 2), 1.5);
+	}
+
+	radius = function(t) {
+		return 1 / curvature(t);
+	}
+
+	updateChart();
+}
+
+window.chartColors = {
+	red: 'rgb(255, 99, 132)',
+	orange: 'rgb(255, 159, 64)',
+	yellow: 'rgb(255, 205, 86)',
+	green: 'rgb(75, 192, 192)',
+	blue: 'rgb(54, 162, 235)',
+	purple: 'rgb(153, 102, 255)',
+	grey: 'rgb(201, 203, 207)'
+};
+
+var chartCtx;
+var curvatureChart;
+
+function generateData(number, dataFunction) {
+	let data = [];
+	for(i = 0; i <= 1; i+=1/number) {
+		data.push({x:Math.round(i*100)/100, y:dataFunction(i)});
+	}
+	return data;
+}
+
+function updateChart() {
+	const number = 35;
+	let data = {
+		datasets: [{
+			label: "Curvature",
+			borderColor: window.chartColors.red,
+			backgroundColor: window.chartColors.red,
+			fill: false,
+			data: generateData(number, curvature),
+			yAxisID: 'curvatureAxis',
+			pointRadius: 2
+		},{
+			label: "Radius",
+			borderColor: window.chartColors.blue,
+			backgroundColor: window.chartColors.blue,
+			fill: false,
+			data: generateData(number, radius),
+			yAxisID: 'radiusAxis',
+			pointRadius: 2
+		}]
+	}
+	if(!curvatureChart) {
+		
+	let options = {
+		responsive: false,
+		hoverMode: 'index',
+		stacked: false,
+		scales: {
+			yAxes: [{
+				type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+				display: true,
+				position: 'left',
+				id: 'curvatureAxis',
+			}, {
+				type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+				display: true,
+				position: 'right',
+				id: 'radiusAxis',
+				// grid line settings
+				gridLines: {
+					drawOnChartArea: false, // only want the grid lines for one axis to show up
+				},
+			}],
+			xAxes: [{
+				type:'linear',
+				positon:'bottom',
+				ticks: {
+					min: 0,
+					max: 1,
+					stepSize: 0.25
+				}
+			}]
+		}
+	}
+		curvatureChart = new Chart(chartCtx, {
+			type: 'line',
+			data: data,
+			options: options
+		});
+	} else {
+		curvatureChart.data.datasets = data.datasets;
+		curvatureChart.update(3);
+	}
 }
 
 $(document).ready(function() {
+	chartCtx = $("#curvatureChart");
 	// drawFieldImage(0.5);
 	var start = {x: 100, y: 25};
 	var mid1 = {x: 10, y: 90};

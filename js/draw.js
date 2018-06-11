@@ -3,7 +3,7 @@ function bindDrawFunctions(idx) {
   var figure = find("figure")[idx];
   var cvs = document.createElement("canvas");
   cvs.width = 600;
-  cvs.height = 600;
+  cvs.height = 450;
   var ctx = cvs.getContext("2d");
   figure.appendChild(cvs);
   var button = figure.querySelector("button");
