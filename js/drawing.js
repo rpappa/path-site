@@ -80,6 +80,8 @@ function generateData(number, dataFunction) {
 	for(i = 0; i <= 1; i+=1/number) {
 		data.push({x:Math.round(i*100)/100, y:dataFunction(i)});
 	}
+	data.push({x:Math.round(1.0*100)/100, y:dataFunction(1.0)});
+	console.log(data);
 	return data;
 }
 
@@ -131,7 +133,7 @@ function updateChart() {
 				positon:'bottom',
 				ticks: {
 					min: 0,
-					max: 1,
+					max: 1.0,
 					stepSize: 0.25
 				}
 			}]
@@ -214,7 +216,7 @@ function generateSpeedFunction() {
 				positon:'bottom',
 				ticks: {
 					min: 0,
-					max: 1,
+					max: 1.0,
 					stepSize: 0.25
 				}
 			}]
