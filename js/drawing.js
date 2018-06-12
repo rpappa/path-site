@@ -1,6 +1,7 @@
-var dx, dy, d2y, dx2, curvature, radius;
+var dx, dy, d2y, dx2, curvature, radius, length;
 
 function equation(start, cp1, cp2, end, len) {
+	length = len;
 	var xt = start.x + " + " + (3 * (cp1.x-start.x)) +"t + " + (3 * (start.x+cp2.x-2*cp1.x)) + "t^2 + " + ((end.x - start.x + 3 * cp1.x - 3 * cp2.x))+ "t^3"
 	$('#xt').text("x(t) = " + xt);
 	var yt = start.y + " + " + (3 * (cp1.y-start.y)) +"t + " + (3 * (start.y+cp2.y-2*cp1.y)) + "t^2 + " + ((end.y - start.y + 3 * cp1.y - 3 * cp2.y))+ "t^3"
@@ -58,6 +59,7 @@ function equation(start, cp1, cp2, end, len) {
 	}
 
 	updateChart();
+	generateSpeedFunction();
 }
 
 window.chartColors = {
@@ -70,7 +72,7 @@ window.chartColors = {
 	grey: 'rgb(201, 203, 207)'
 };
 
-var chartCtx;
+var curvatureChartCtx;
 var curvatureChart;
 
 function generateData(number, dataFunction) {
@@ -115,7 +117,7 @@ function updateChart() {
 				position: 'left',
 				id: 'curvatureAxis',
 			}, {
-				type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+				type: 'logarithmic', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
 				display: true,
 				position: 'right',
 				id: 'radiusAxis',
@@ -135,7 +137,7 @@ function updateChart() {
 			}]
 		}
 	}
-		curvatureChart = new Chart(chartCtx, {
+		curvatureChart = new Chart(curvatureChartCtx, {
 			type: 'line',
 			data: data,
 			options: options
@@ -146,8 +148,97 @@ function updateChart() {
 	}
 }
 
+var speedChartCtx;
+var speedChart;
+var speedFunction;
+
+function generateSpeedFunction() {
+	if(!curvature) {
+		return;
+	}
+
+	const minSpeed = parseFloat($('#minspeed').val());
+	const maxSpeed = parseFloat($('#maxspeed').val());
+	const accel = parseFloat($('#accel').val())/100;
+	const radius1 = parseFloat($('#radius1').val());
+	const radius2 = parseFloat($('#radius2').val());
+	const lookahead = parseFloat($('#lookahead').val());
+	speedFunction = function(t) {
+		const inchesTraveled = t * length;
+		const inchesToGo = (1 - t) * length;
+
+		// the speed as we speed up from start
+		const speedUpSpeed = minSpeed + inchesTraveled * accel;
+		// the speed as we slow down to end
+		const slowDownSpeed = minSpeed + inchesToGo * accel;
+
+		let turnSpeed = maxSpeed;
+		const lookaheadt = t + lookahead/length;
+		if(radius(lookaheadt) <= radius1) {
+			turnSpeed = maxSpeed - (curvature(lookaheadt) - 1/radius1)/(1/radius2 - 1/radius1) * (maxSpeed - minSpeed);
+		}
+
+		let outSpeed = Math.min(speedUpSpeed, slowDownSpeed, turnSpeed, maxSpeed);
+		if(outSpeed < minSpeed) {
+			outSpeed = minSpeed;
+		}
+		return outSpeed;
+	}
+
+	const number = 40;
+	let data = {
+		datasets: [{
+			label: "Speed",
+			borderColor: window.chartColors.red,
+			backgroundColor: window.chartColors.red,
+			fill: false,
+			data: generateData(number, speedFunction),
+			yAxisID: 'speedAxis',
+			pointRadius: 2
+		}]
+	}
+	if(!speedChart) {
+	let options = {
+		responsive: false,
+		hoverMode: 'index',
+		stacked: false,
+		scales: {
+			yAxes: [{
+				type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+				display: true,
+				position: 'left',
+				id: 'speedAxis',
+			}],
+			xAxes: [{
+				type:'linear',
+				positon:'bottom',
+				ticks: {
+					min: 0,
+					max: 1,
+					stepSize: 0.25
+				}
+			}]
+		}
+	}
+		speedChart = new Chart(speedChartCtx, {
+			type: 'line',
+			data: data,
+			options: options
+		});
+	} else {
+		speedChart.data.datasets = data.datasets;
+		speedChart.update(3);
+	}
+}
+
 $(document).ready(function() {
-	chartCtx = $("#curvatureChart");
+	curvatureChartCtx = $("#curvatureChart");
+	speedChartCtx = $("#speedChart");
+
+	$('#generate').click(generateSpeedFunction);
+	$('#beta').click(function() {
+		$(".beta").toggle(this.checked);
+	});
 	// drawFieldImage(0.5);
 	var start = {x: 100, y: 25};
 	var mid1 = {x: 10, y: 90};

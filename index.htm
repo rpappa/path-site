@@ -37,6 +37,27 @@
 			<div style="background-color:#dddddd; width: fit-content;">
 				<span id = "java" style="font-family: serf; font-size:11px"></span><br />
 			</div>	
+			<br />
+			<input id="beta" type="checkbox"> Turn on beta features
+			<div class="beta">
+				<form>
+					Min speed:
+					<input id="minspeed" type="number" value="0.3"> Max speed:
+					<input id="maxspeed" type="number" value="0.8">
+					<br /> Start/stop accel :
+					<input id="accel" type="number" value="3"> percent/inch
+					<br /> Turn radius start slowing down:
+					<input id="radius1" type="number" value="75">
+					<br /> Turn radius for min speed:
+					<input id="radius2" type="number" value="20">
+					<br /> Turn lookahead:
+					<input id="lookahead" type="number" value="10"> inches
+					<br />
+					<br />
+					<span id="generate" class="button">Generate</span>
+				</form>
+				<canvas id="speedChart" width="500" height="250"></canvas>
+			</div>
 		</div>
 
 		<div id="right" style="width:50%;display: inline-block;">
@@ -59,7 +80,9 @@
 						}
 	            }
 			</script></figure></figures>
-			<canvas id="curvatureChart" width="500" height="300"></canvas>
+			<div class="beta">
+				<canvas id="curvatureChart" width="500" height="300"></canvas>
+			</div>
 		</div>
 		<div id="340" style="float:right;position:absolute;opacity:0.2;right:30px;bottom:30px">
 			<span style="font-family:Impact; font-size:80px; font-style:italic;">340</span>
