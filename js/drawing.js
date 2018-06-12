@@ -81,7 +81,6 @@ function generateData(number, dataFunction) {
 		data.push({x:Math.round(i*100)/100, y:dataFunction(i)});
 	}
 	data.push({x:Math.round(1.0*100)/100, y:dataFunction(1.0)});
-	console.log(data);
 	return data;
 }
 
@@ -175,7 +174,10 @@ function generateSpeedFunction() {
 		const slowDownSpeed = minSpeed + inchesToGo * accel;
 
 		let turnSpeed = maxSpeed;
-		const lookaheadt = t + lookahead/length;
+		let lookaheadt = t + lookahead/length;
+		if(lookaheadt > 1.0) {
+			lookaheadt = 1.0;
+		}
 		if(radius(lookaheadt) <= radius1) {
 			turnSpeed = maxSpeed - (curvature(lookaheadt) - 1/radius1)/(1/radius2 - 1/radius1) * (maxSpeed - minSpeed);
 		}
