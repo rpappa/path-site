@@ -13,13 +13,18 @@
 
 		<script src="js/jquery.min.js"></script>
 
+		<link rel="stylesheet" type="text/css" href="mdtoast.min.css">
+		<script type="text/javascript" src="js/mdtoast.min.js"></script>
+
 		<script src="js/bezier.js"></script>
 		<script src="js/Chart.bundle.min.js"></script>
 
 		<script src="js/drawing.js"></script>
 
     	<script src="js/draw.js"></script>
-    	<script src="js/loader.js"></script>
+		<script src="js/loader.js"></script>
+		
+		<link href="fonts/fontfaces.css" rel="stylesheet">
 
 		<link rel="stylesheet" type="text/css" href="style.css">
 		
@@ -31,7 +36,7 @@
 		<meta name="msapplication-TileColor" content="#212121">
 		<meta name="theme-color" content="#212121">
 	</head>
-	<body style="font-family: 'Open Sans', sans-serif;">
+	<body>
 		<div id="left" style="width:45%;display: inline-block;float: left;">
 			<form>
 				Start x: <input id="startx" type="number" value="100"> Start y: <input id="starty" type="number" value="25"><br />
@@ -55,9 +60,11 @@
 			
 			<div id="pathcode">
 				<div class="tab" tab="old"><span>Old Style</span></div><div class="tab active" tab="new"><span>New Style</span></div>
-				<div style="background-color:#dddddd; width: fit-content;">
-					<span id = "java" style="font-family: serf; font-size:11px"></span><br />
-				</div>	
+				<div class="code">
+					<span id = "java"></span>
+				</div>
+				<br />
+				<span id="copypath" class="button">Copy to clipboard</span><br /><br />
 			</div>
 			<br />
 			<input id="beta" type="checkbox"> Turn on beta features
@@ -78,6 +85,12 @@
 					<br />
 					<span id="generate" class="button">Generate</span>
 				</form>
+				<br />
+				<div class="code">
+						<span id = "speedgen"></span>
+					</div>
+					<br />
+					<span id="copyspeedgen" class="button">Copy to clipboard</span>
 				<!-- <canvas id="speedChart" width="500" height="250"></canvas> -->
 			</div>
 		</div>

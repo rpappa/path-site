@@ -246,6 +246,7 @@ function generateSpeedFunction() {
 		speedChart.data.datasets = data.datasets;
 		speedChart.update(0);
 	}
+	$('#speedgen').text(`SpeedGenerator generator = new SpeedGenerator(${minSpeed}, ${maxSpeed}, ${accel}, ${radius1}, ${radius2}, ${lookahead});`)
 	// save our generator options to browser
 	const generatorOptions = {minSpeed: minSpeed, 
 		maxSpeed: maxSpeed, 
@@ -253,7 +254,7 @@ function generateSpeedFunction() {
 		radius1: radius1, 
 		radius2: radius2, 
 		lookahead: lookahead};
-	console.log(JSON.stringify(generatorOptions));
+	// console.log(JSON.stringify(generatorOptions));
 	window.localStorage.setItem("generatorOptions", JSON.stringify(generatorOptions));
 }
 
@@ -350,6 +351,7 @@ $(document).ready(function() {
 		
 		let imp = JSON.parse($("#import").val());
 		curveImport(imp);
+		$.mdtoast('Imported!', {duration: 1000});
 	});
 
 	$('#mirror').click(()=>{
@@ -509,12 +511,34 @@ $(document).ready(function() {
 		checkedImports++;
 	}
 
+	$('#copypath').click(function() {
+		// $('#java').select();
+		copyToClipboard($('#java').text());
+	});
+
+	$('#copyspeedgen').click(function() {
+		// $('#java').select();
+		copyToClipboard($('#speedgen').text());
+	});
+
 	$(document).keypress((e)=>{
 		update();
 	});
 
 	//setInterval(update, 100);
 });
+
+function copyToClipboard(text) {
+	let textarea = $('<textarea></textarea>');
+	textarea.val(text);
+	textarea.width(0);
+	textarea.height(0);
+	$('body').append(textarea);
+	textarea.select();
+	document.execCommand('copy');
+	textarea.remove();
+	$.mdtoast('Copied to clipboard!', {duration: 1000});
+}
 
 window.updateFromCurve = function(){};
 
