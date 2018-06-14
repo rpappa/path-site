@@ -488,15 +488,7 @@ $(document).ready(function() {
 	}
 
 	window.updateFromCurve = updateFromCurve;
-	let importCurve = window.localStorage.getItem("curve");
-	if(importCurve) {
-		console.log(JSON.parse(importCurve));
-		curveImport(JSON.parse(importCurve));
-		draw();
-		checkedImports++;
-	} else {
-		checkedImports++;
-	}
+
 	let importOptions = window.localStorage.getItem("generatorOptions");
 	if(importOptions) {
 		console.log(JSON.parse(importOptions));
@@ -519,6 +511,15 @@ $(document).ready(function() {
 			style = 0;
 		}
 		checkedImports++;
+	} else {
+		checkedImports++;
+	}
+	let importCurve = window.localStorage.getItem("curve");
+	if(importCurve) {
+		checkedImports++;
+		console.log(JSON.parse(importCurve));
+		curveImport(JSON.parse(importCurve));
+		draw();
 	} else {
 		checkedImports++;
 	}
