@@ -1,6 +1,12 @@
 var dx, dy, d2y, dx2, curvature, radius, length;
 
+var checkedImports = 0;
+
 function equation(start, cp1, cp2, end, len) {
+	if(checkedImports < 2) return;
+	// storage export
+	window.localStorage.setItem("curve", JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}));
+	
 	length = len;
 	var xt = start.x + " + " + (3 * (cp1.x-start.x)) +"t + " + (3 * (start.x+cp2.x-2*cp1.x)) + "t^2 + " + ((end.x - start.x + 3 * cp1.x - 3 * cp2.x))+ "t^3"
 	$('#xt').text("x(t) = " + xt);
@@ -20,10 +26,17 @@ function equation(start, cp1, cp2, end, len) {
 	$('#export').text("/* " + JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}) + " */");
 	$('#dydx').text(dydxString);
 
-	$('#java').html(`new PathSegment(t -> <br />
-		/* ${JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end})} */<br />
-		${dydxString} <br />
-		, ${Math.ceil(len)})`);
+	if(style==0) {
+		$('#java').html(`new PathSegment(t -> <br />
+			/* ${JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end})} */<br />
+			${dydxString} <br />
+			, ${Math.ceil(len)})`);
+	} else {
+		$('#java').html(`new PathSegment( <br />
+			/* ${JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end})} */<br />
+			new Vec2(${start.x}, ${start.y}), new Vec2(${cp1.x}, ${cp1.y}), new Vec2(${cp2.x}, ${cp2.y}), new Vec2(${end.x}, ${end.y}) <br />
+			, ${Math.ceil(len)})`);
+	}
 
 	dx = function(t) {
 		return (
@@ -145,7 +158,7 @@ function updateChart() {
 		});
 	} else {
 		curvatureChart.data.datasets = data.datasets;
-		curvatureChart.update(3);
+		curvatureChart.update(0);
 	}
 }
 
@@ -193,8 +206,8 @@ function generateSpeedFunction() {
 	let data = {
 		datasets: [{
 			label: "Speed",
-			borderColor: window.chartColors.red,
-			backgroundColor: window.chartColors.red,
+			borderColor: window.chartColors.green,
+			backgroundColor: window.chartColors.green,
 			fill: false,
 			data: generateData(number, speedFunction),
 			yAxisID: 'speedAxis',
@@ -231,9 +244,20 @@ function generateSpeedFunction() {
 		});
 	} else {
 		speedChart.data.datasets = data.datasets;
-		speedChart.update(3);
+		speedChart.update(0);
 	}
+	// save our generator options to browser
+	const generatorOptions = {minSpeed: minSpeed, 
+		maxSpeed: maxSpeed, 
+		accel: accel*100, 
+		radius1: radius1, 
+		radius2: radius2, 
+		lookahead: lookahead};
+	console.log(JSON.stringify(generatorOptions));
+	window.localStorage.setItem("generatorOptions", JSON.stringify(generatorOptions));
 }
+
+var style = 1;
 
 $(document).ready(function() {
 	curvatureChartCtx = $("#curvatureChart");
@@ -242,6 +266,17 @@ $(document).ready(function() {
 	$('#generate').click(generateSpeedFunction);
 	$('#beta').click(function() {
 		$(".beta").toggle(this.checked);
+	});
+
+	$('.tab').click(function() {
+		$('.tab').removeClass('active');
+		$(this).addClass('active');
+		if($(this).attr("tab") == "old") {
+			style = 0;
+		} else {
+			style = 1;
+		}
+		equation(start, mid1, mid2, end, curve.length());
 	});
 	// drawFieldImage(0.5);
 	var start = {x: 100, y: 25};
@@ -280,8 +315,8 @@ $(document).ready(function() {
 	$('#endy').change(function() {
 		end.y = parseFloat($(this).val());
 	});
-	$('#importtext').click(function() {
-		let imp = JSON.parse($("#import").val());
+
+	curveImport = function(imp) {
 		start.x = imp.start.x;
 		start.y = imp.start.y;
 
@@ -306,9 +341,15 @@ $(document).ready(function() {
 		$('#mid2x').val(mid2.x);
 		$('#mid2y').val(mid2.y);
 		
-		let curve =new Bezier(start , mid1 , mid2 , end);
-		draw(curve);
+		let curve2 =new Bezier(start , mid1 , mid2 , end);
+		window.curve=curve2;
+		draw();
 		equation(start, mid1, mid2, end, curve.length());
+	}
+	$('#importtext').click(function() {
+		
+		let imp = JSON.parse($("#import").val());
+		curveImport(imp);
 	});
 
 	$('#mirror').click(()=>{
@@ -444,6 +485,29 @@ $(document).ready(function() {
 	}
 
 	window.updateFromCurve = updateFromCurve;
+	let importCurve = window.localStorage.getItem("curve");
+	if(importCurve) {
+		console.log(JSON.parse(importCurve));
+		curveImport(JSON.parse(importCurve));
+		draw();
+		checkedImports++;
+	} else {
+		checkedImports++;
+	}
+	let importOptions = window.localStorage.getItem("generatorOptions");
+	if(importOptions) {
+		console.log(JSON.parse(importOptions));
+		importOptions = JSON.parse(importOptions);
+		$('#minspeed').val(importOptions.minSpeed);
+		$('#maxspeed').val(importOptions.maxSpeed);
+		$('#accel').val(importOptions.accel);
+		$('#radius1').val(importOptions.radius1);
+		$('#radius2').val(importOptions.radius2);
+		$('#lookahead').val(importOptions.lookahead);
+		checkedImports++;
+	} else {
+		checkedImports++;
+	}
 
 	$(document).keypress((e)=>{
 		update();

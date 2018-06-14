@@ -10,3 +10,14 @@ input {
 .beta {
 	display:none;
 }
+.tab {
+	font-size:12px;
+	display:inline-block;
+	padding:7px;
+	border:1px solid darkgrey;
+	border-radius:7px 7px 0px 0px;
+}
+.tab.active {
+	background-color: aaaaff;
+	box-shadow: 0px -2px #dddddd;
+}

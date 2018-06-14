@@ -1,5 +1,6 @@
 <html>
 	<head>
+		<title>Pathing</title>
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-120731990-1"></script>
 		<script>
@@ -52,9 +53,12 @@
 			<span id = "dydx">dy/dx = </span><br /><br />
 			<span id = "export">// </span><br /><br />
 			
-			<div style="background-color:#dddddd; width: fit-content;">
-				<span id = "java" style="font-family: serf; font-size:11px"></span><br />
-			</div>	
+			<div id="pathcode">
+				<div class="tab" tab="old"><span>Old Style</span></div><div class="tab active" tab="new"><span>New Style</span></div>
+				<div style="background-color:#dddddd; width: fit-content;">
+					<span id = "java" style="font-family: serf; font-size:11px"></span><br />
+				</div>	
+			</div>
 			<br />
 			<input id="beta" type="checkbox"> Turn on beta features
 			<div class="beta">
@@ -74,7 +78,7 @@
 					<br />
 					<span id="generate" class="button">Generate</span>
 				</form>
-				<canvas id="speedChart" width="500" height="250"></canvas>
+				<!-- <canvas id="speedChart" width="500" height="250"></canvas> -->
 			</div>
 		</div>
 
@@ -84,10 +88,10 @@
 			<figures>
 			<figure class="quadratic"><script type="text/beziercode">
 				
-		            window.draw = function() {
-		            	//if(!c) {
+		            window.draw = function(c) {
+		            	if(!c) {
 							c = window.curve;
-						//}
+						}
 						reset();
 						drawFieldImage(0.5);
 						drawSkeleton(c, {x: 5, y: 50});
@@ -99,7 +103,8 @@
 	            }
 			</script></figure></figures>
 			<div class="beta">
-				<canvas id="curvatureChart" width="500" height="300"></canvas>
+				<canvas id="curvatureChart" width="450" height="300" style="display:inline-block"></canvas>
+				<canvas id="speedChart" width="450" height="300" style="display:inline-block"></canvas><br />
 				<span>Beta features are untested and/or unimplemented</span>
 			</div>
 		</div>
