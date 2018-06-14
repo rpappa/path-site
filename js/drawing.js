@@ -3,8 +3,8 @@ var dx, dy, d2y, dx2, curvature, radius, length;
 var checkedImports = 0;
 
 function equation(start, cp1, cp2, end, len) {
-	if(checkedImports < 2) return;
-	// storage export
+	if(checkedImports < 3) return;
+	// curve export
 	window.localStorage.setItem("curve", JSON.stringify({start: start, mid1: cp1, mid2: cp2, end:end}));
 	
 	length = len;
@@ -278,6 +278,7 @@ $(document).ready(function() {
 			style = 1;
 		}
 		equation(start, mid1, mid2, end, curve.length());
+		window.localStorage.setItem("style", style);
 	});
 	// drawFieldImage(0.5);
 	var start = {x: 100, y: 25};
@@ -506,6 +507,17 @@ $(document).ready(function() {
 		$('#radius1').val(importOptions.radius1);
 		$('#radius2').val(importOptions.radius2);
 		$('#lookahead').val(importOptions.lookahead);
+		checkedImports++;
+	} else {
+		checkedImports++;
+	}
+	let importStyle = window.localStorage.getItem("style");
+	if(importStyle) {
+		if(importStyle == 0) {
+			$('.tab').removeClass('active')
+			$("[tab*=old]").addClass('active');
+			style = 0;
+		}
 		checkedImports++;
 	} else {
 		checkedImports++;
