@@ -1,12 +1,19 @@
 body {
 	font-family: Roboto, 'Open Sans', sans-serif;
+	color: #2a2d34;
 }
 
 .button {
 	font-size:0.9em;
-	background-color:#aaaaff; 
-	border-radius: 5px;
-	padding: 3px;
+	background-color:#f48025; 
+	border-radius: 3px;
+	padding: 5px 15px 5px 15px;
+	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+	cursor: pointer;
+}
+.button:hover {
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 input {
 	width:100px;
@@ -18,12 +25,13 @@ input {
 	font-size:12px;
 	display:inline-block;
 	padding:7px;
-	border:1px solid darkgrey;
-	border-radius:7px 7px 0px 0px;
+	/* border:1px solid #2a2d34; */
+	/* border-radius:7px 7px 0px 0px; */
 }
 .tab.active {
-	background-color: aaaaff;
-	box-shadow: 0px -2px #dddddd;
+	/* background-color:#f48025; */
+	/* box-shadow: 0px -2px #dddddd; */
+	border-bottom:2px solid #2a2d34;
 }
 
 .code {
@@ -32,4 +40,20 @@ input {
 	font-family: 'Roboto Mono', serif; 
 	font-size:11px;
 	padding:5px;
+}
+
+.pane {
+	background-color:#f7f7f7;
+	padding:10px;
+	margin:15px;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.pane-top-open {
+	border-bottom: 1px solid #dad7cd;
+	margin-bottom: 10px;
+}
+.pane-top {
+	padding:5px;
+	cursor: pointer;
 }

@@ -23,6 +23,8 @@
 
     	<script src="js/draw.js"></script>
 		<script src="js/loader.js"></script>
+
+		<script src="js/panes.js"></script>
 		
 		<link href="fonts/fontfaces.css" rel="stylesheet">
 
@@ -38,6 +40,7 @@
 	</head>
 	<body>
 		<div id="left" style="width:45%;display: inline-block;float: left;">
+			<div class="pane-body" pane="Points" start="open">
 			<form>
 				Start x: <input id="startx" type="number" value="100"> Start y: <input id="starty" type="number" value="25"><br />
 				End x : <input id="endx" type="number"  value="150"> End y:<input id="endy" type="number" value="195"><br />
@@ -46,25 +49,32 @@
 				<br /><br />
 				<span id="reverse" class="button">Reverse</span>
 				<span id="mirror" class="button">Mirror (about x-axis)</span> <br /><br />
-				Offset x: <input id="offx" type="number" value="0"> Offset y: <input id="offy" type="number" value="0"><br /><span id="offset" class="button">Offset</span>
-				<br /><br /><br />
-				Import: <input id="import"> <span id="importtext" class="button"> Import from JSON </span>
+				Offset x: <input id="offx" type="number" value="0"> Offset y: <input id="offy" type="number" value="0">
+				<span id="offset" class="button">Offset</span>
 			</form>
-			<span id = "xt">x(t) = </span><br />
-			<span id = "yt">y(t) = </span><br />
-			<br />
-			<span id = "dx">dx = </span><br />
-			<span id = "dy">dy = </span><br />
-			<span id = "dydx">dy/dx = </span><br /><br />
-			<span id = "export">// </span><br /><br />
-			
-			<div id="pathcode">
-				<div class="tab" tab="old"><span>Old Style</span></div><div class="tab active" tab="new"><span>New Style</span></div>
-				<div class="code">
-					<span id = "java"></span>
-				</div>
+			</div>
+			<div class="pane-body" pane="Import" start="closed">
+					Import: <input id="import" style="width:250px"> <span id="importtext" class="button"> Import from JSON </span>
+			</div>
+			<div class="pane-body" pane="Math" start="closed">
+				<span id = "xt">x(t) = </span><br />
+				<span id = "yt">y(t) = </span><br />
 				<br />
-				<span id="copypath" class="button">Copy to clipboard</span><br /><br />
+				<span id = "dx">dx = </span><br />
+				<span id = "dy">dy = </span><br />
+				<span id = "dydx">dy/dx = </span><br /><br />
+				<span id = "export">// </span><br /><br />
+			</div>
+			
+			<div class="pane-body" pane="Code" start="open">
+				<div id="pathcode">
+					<div class="tab" tab="old"><span>Old Style</span></div><div class="tab active" tab="new"><span>New Style</span></div>
+					<div class="code">
+						<span id = "java"></span>
+					</div>
+					<br />
+					<span id="copypath" class="button">Copy to clipboard</span><br /><br />
+				</div>
 			</div>
 			<br />
 			<input id="beta" type="checkbox"> Turn on beta features
