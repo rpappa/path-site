@@ -173,7 +173,8 @@ function generateSpeedFunction() {
 
 	const minSpeed = parseFloat($('#minspeed').val());
 	const maxSpeed = parseFloat($('#maxspeed').val());
-	const accel = parseFloat($('#accel').val())/100;
+	const startAccel = parseFloat($('#startaccel').val())/100;
+	const stopAccel = parseFloat($('#stopaccel').val())/100;
 	const radius1 = parseFloat($('#radius1').val());
 	const radius2 = parseFloat($('#radius2').val());
 	const lookahead = parseFloat($('#lookahead').val());
@@ -182,9 +183,9 @@ function generateSpeedFunction() {
 		const inchesToGo = (1 - t) * length;
 
 		// the speed as we speed up from start
-		const speedUpSpeed = minSpeed + inchesTraveled * accel;
+		const speedUpSpeed = minSpeed + inchesTraveled * startAccel;
 		// the speed as we slow down to end
-		const slowDownSpeed = minSpeed + inchesToGo * accel;
+		const slowDownSpeed = minSpeed + inchesToGo * stopAccel;
 
 		let turnSpeed = maxSpeed;
 		let lookaheadt = t + lookahead/length;
@@ -246,11 +247,12 @@ function generateSpeedFunction() {
 		speedChart.data.datasets = data.datasets;
 		speedChart.update(0);
 	}
-	$('#speedgen').text(`SpeedGenerator generator = new SpeedGenerator(${minSpeed}, ${maxSpeed}, ${accel}, ${radius1}, ${radius2}, ${lookahead});`)
+	$('#speedgen').text(`SpeedGenerator generator = new SpeedGenerator(${minSpeed}, ${maxSpeed}, ${startAccel}, ${stopAccel}, ${radius1}, ${radius2}, ${lookahead});`)
 	// save our generator options to browser
 	const generatorOptions = {minSpeed: minSpeed, 
 		maxSpeed: maxSpeed, 
-		accel: accel*100, 
+		startAccel: startAccel*100, 
+		stopAccel: stopAccel*100,
 		radius1: radius1, 
 		radius2: radius2, 
 		lookahead: lookahead};
@@ -495,7 +497,8 @@ $(document).ready(function() {
 		importOptions = JSON.parse(importOptions);
 		$('#minspeed').val(importOptions.minSpeed);
 		$('#maxspeed').val(importOptions.maxSpeed);
-		$('#accel').val(importOptions.accel);
+		$('#startaccel').val(importOptions.startaccel);
+		$('#stopaccel').val(importOptions.stopaccel);
 		$('#radius1').val(importOptions.radius1);
 		$('#radius2').val(importOptions.radius2);
 		$('#lookahead').val(importOptions.lookahead);
