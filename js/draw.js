@@ -17,7 +17,7 @@ function bindDrawFunctions(idx) {
   var randomIndex = 0;
 
   var fieldImage = new Image();
-  fieldImage.src = "field19.png"
+  fieldImage.src = "field_20_scale.png"
 
 
   return {
